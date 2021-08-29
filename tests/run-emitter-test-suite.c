@@ -11,7 +11,13 @@ char *get_tag(char *line, char *tag);
 void get_value(char *line, char *value, int *style);
 int usage(int ret);
 
-int main(int argc, char *argv[])
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_run_emitter_test_suite_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     FILE *input;
     yaml_emitter_t emitter;

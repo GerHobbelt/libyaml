@@ -4,8 +4,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int
-main(int argc, char *argv[])
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_example_example_reformatter_alt_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     int help = 0;
     int canonical = 0;

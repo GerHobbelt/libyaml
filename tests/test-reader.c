@@ -347,8 +347,13 @@ int check_long_utf16(void)
     return failed;
 }
 
-int
-main(void)
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_test_reader_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     return check_utf8_sequences() + check_boms() + check_long_utf8() + check_long_utf16();
 }

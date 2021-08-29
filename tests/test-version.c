@@ -8,8 +8,13 @@
 #endif
 #include <assert.h>
 
-int
-main(void)
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_test_version_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     int major = -1;
     int minor = -1;

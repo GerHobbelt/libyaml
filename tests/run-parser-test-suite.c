@@ -6,7 +6,13 @@
 void print_escaped(yaml_char_t * str, size_t length);
 int usage(int ret);
 
-int main(int argc, char *argv[])
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_run_parser_test_suite_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     FILE *input;
     yaml_parser_t parser;

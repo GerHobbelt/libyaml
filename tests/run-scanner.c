@@ -8,8 +8,13 @@
 #endif
 #include <assert.h>
 
-int
-main(int argc, char *argv[])
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_run_scanner_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     int number;
 

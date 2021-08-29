@@ -210,8 +210,13 @@ int print_output(char *name, unsigned char *buffer, size_t size, int count)
     return 0;
 }
 
-int
-main(int argc, char *argv[])
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_run_emitter_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
     int number;
     int canonical = 0;
