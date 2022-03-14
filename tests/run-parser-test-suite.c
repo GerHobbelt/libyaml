@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <assert.h>
 
-void print_escaped(yaml_char_t * str, size_t length);
-int usage(int ret);
+static void print_escaped(yaml_char_t * str, size_t length);
+static int usage(int ret);
 
 
 
@@ -14,7 +14,7 @@ int usage(int ret);
 
 int main(int argc, const char** argv)
 {
-    FILE *input;
+    FILE *input = NULL;
     yaml_parser_t parser;
     yaml_event_t event;
     int flow = -1; /** default no flow style collections */
@@ -165,7 +165,7 @@ int main(int argc, const char** argv)
     return 0;
 }
 
-void print_escaped(yaml_char_t * str, size_t length)
+static void print_escaped(yaml_char_t * str, size_t length)
 {
     int i;
     char c;
@@ -189,7 +189,7 @@ void print_escaped(yaml_char_t * str, size_t length)
     }
 }
 
-int usage(int ret) {
+static int usage(int ret) {
     fprintf(stderr, "Usage: libyaml-parser [--flow (on|off|keep)] [<input-file>]\n");
     return ret;
 }

@@ -5,11 +5,11 @@
 #include <assert.h>
 #include "../src/yaml_private.h"
 
-int get_line(FILE * input, char *line);
-char *get_anchor(char sigil, char *line, char *anchor);
-char *get_tag(char *line, char *tag);
-void get_value(char *line, char *value, int *style);
-int usage(int ret);
+static int get_line(FILE * input, char *line);
+static char *get_anchor(char sigil, char *line, char *anchor);
+static char *get_tag(char *line, char *tag);
+static void get_value(char *line, char *value, int *style);
+static int usage(int ret);
 
 
 
@@ -19,7 +19,7 @@ int usage(int ret);
 
 int main(int argc, const char** argv)
 {
-    FILE *input;
+    FILE *input = NULL;
     yaml_emitter_t emitter;
     yaml_event_t event;
     yaml_version_directive_t *version_directive = NULL;
@@ -193,7 +193,7 @@ int main(int argc, const char** argv)
     return 1;
 }
 
-int get_line(FILE * input, char *line)
+static int get_line(FILE * input, char *line)
 {
     char *newline;
 
@@ -209,7 +209,7 @@ int get_line(FILE * input, char *line)
     return 1;
 }
 
-char *get_anchor(char sigil, char *line, char *anchor)
+static char *get_anchor(char sigil, char *line, char *anchor)
 {
     char *start;
     char *end;
@@ -223,7 +223,7 @@ char *get_anchor(char sigil, char *line, char *anchor)
     return anchor;
 }
 
-char *get_tag(char *line, char *tag)
+static char *get_tag(char *line, char *tag)
 {
     char *start;
     char *end;
@@ -236,7 +236,7 @@ char *get_tag(char *line, char *tag)
     return tag;
 }
 
-void get_value(char *line, char *value, int *style)
+static void get_value(char *line, char *value, int *style)
 {
     int i = 0;
     char *c;
@@ -290,7 +290,7 @@ void get_value(char *line, char *value, int *style)
     value[i] = '\0';
 }
 
-int usage(int ret) {
+static int usage(int ret) {
     fprintf(stderr, "Usage: run-emitter-test-suite [--directive (1.1|1.2)] [--flow (on|off|keep)] [<input-file>]\n");
     return ret;
 }

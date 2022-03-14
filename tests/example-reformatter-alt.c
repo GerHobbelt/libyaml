@@ -129,21 +129,21 @@ parser_error:
                         parser.problem_value, parser.problem_offset);
             }
             else {
-                fprintf(stderr, "Reader error: %s at %lu\n", parser.problem,
+                fprintf(stderr, "Reader error: %s at %zu\n", parser.problem,
                         parser.problem_offset);
             }
             break;
 
         case YAML_SCANNER_ERROR:
             if (parser.context) {
-                fprintf(stderr, "Scanner error: %s at line %lu, column %lu\n"
-                        "%s at line %lu, column %lu\n", parser.context,
+                fprintf(stderr, "Scanner error: %s at line %zu, column %zu\n"
+                        "%s at line %zu, column %zu\n", parser.context,
                         parser.context_mark.line+1, parser.context_mark.column+1,
                         parser.problem, parser.problem_mark.line+1,
                         parser.problem_mark.column+1);
             }
             else {
-                fprintf(stderr, "Scanner error: %s at line %lu, column %lu\n",
+                fprintf(stderr, "Scanner error: %s at line %zu, column %zu\n",
                         parser.problem, parser.problem_mark.line+1,
                         parser.problem_mark.column+1);
             }
@@ -151,14 +151,14 @@ parser_error:
 
         case YAML_PARSER_ERROR:
             if (parser.context) {
-                fprintf(stderr, "Parser error: %s at line %lu, column %lu\n"
-                        "%s at line %lu, column %lu\n", parser.context,
+                fprintf(stderr, "Parser error: %s at line %zu, column %zu\n"
+                        "%s at line %zu, column %zu\n", parser.context,
                         parser.context_mark.line+1, parser.context_mark.column+1,
                         parser.problem, parser.problem_mark.line+1,
                         parser.problem_mark.column+1);
             }
             else {
-                fprintf(stderr, "Parser error: %s at line %lu, column %lu\n",
+                fprintf(stderr, "Parser error: %s at line %zu, column %zu\n",
                         parser.problem, parser.problem_mark.line+1,
                         parser.problem_mark.column+1);
             }
@@ -166,14 +166,14 @@ parser_error:
 
         case YAML_COMPOSER_ERROR:
             if (parser.context) {
-                fprintf(stderr, "Composer error: %s at line %lu, column %lu\n"
-                        "%s at line %lu, column %lu\n", parser.context,
+                fprintf(stderr, "Composer error: %s at line %zu, column %zu\n"
+                        "%s at line %zu, column %zu\n", parser.context,
                         parser.context_mark.line+1, parser.context_mark.column+1,
                         parser.problem, parser.problem_mark.line+1,
                         parser.problem_mark.column+1);
             }
             else {
-                fprintf(stderr, "Composer error: %s at line %lu, column %lu\n",
+                fprintf(stderr, "Composer error: %s at line %zu, column %zu\n",
                         parser.problem, parser.problem_mark.line+1,
                         parser.problem_mark.column+1);
             }

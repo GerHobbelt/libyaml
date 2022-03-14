@@ -12,7 +12,7 @@
 #define BUFFER_SIZE 65536
 #define MAX_EVENTS  1024
 
-int copy_event(yaml_event_t *event_to, yaml_event_t *event_from)
+static int copy_event(yaml_event_t *event_to, yaml_event_t *event_from)
 {
     switch (event_from->type)
     {
@@ -75,7 +75,7 @@ int copy_event(yaml_event_t *event_to, yaml_event_t *event_from)
     return 0;
 }
 
-int compare_events(yaml_event_t *event1, yaml_event_t *event2)
+static int compare_events(yaml_event_t *event1, yaml_event_t *event2)
 {
     int k;
 
@@ -185,7 +185,7 @@ int compare_events(yaml_event_t *event1, yaml_event_t *event2)
     }
 }
 
-int print_output(char *name, unsigned char *buffer, size_t size, int count)
+static int print_output(const char *name, unsigned char *buffer, size_t size, int count)
 {
     FILE *file;
     char data[BUFFER_SIZE];
@@ -221,9 +221,10 @@ int main(int argc, const char** argv)
     int number;
     int canonical = 0;
     int unicode = 0;
+	const char** file_list = calloc(argc + 2, sizeof(argv[0]));
+	int file_count = 0;
 
-    number = 1;
-    while (number < argc) {
+	for (number = 1; number < argc; number++) {
         if (strcmp(argv[number], "-c") == 0) {
             canonical = 1;
         }
@@ -234,23 +235,17 @@ int main(int argc, const char** argv)
             printf("Unknown option: '%s'\n", argv[number]);
             return 0;
         }
-        if (argv[number][0] == '-') {
-            if (number < argc-1) {
-                memmove(argv+number, argv+number+1, (argc-number-1)*sizeof(char *));
-            }
-            argc --;
-        }
         else {
-            number ++;
+			file_list[file_count++] = argv[number];
         }
     }
 
-    if (argc < 2) {
+    if (file_count < 1) {
         printf("Usage: %s [-c] [-u] file1.yaml ...\n", argv[0]);
         return 0;
     }
 
-    for (number = 1; number < argc; number ++)
+    for (number = 0; number < file_count; number++)
     {
         FILE *file;
         yaml_parser_t parser;
@@ -267,10 +262,10 @@ int main(int argc, const char** argv)
         memset(buffer, 0, BUFFER_SIZE+1);
         memset(events, 0, MAX_EVENTS*sizeof(yaml_event_t));
 
-        printf("[%d] Parsing, emitting, and parsing again '%s': ", number, argv[number]);
+        printf("[%d] Parsing, emitting, and parsing again '%s': ", number + 1, file_list[number]);
         fflush(stdout);
 
-        file = fopen(argv[number], "rb");
+        file = fopen(file_list[number], "rb");
         assert(file);
 
         assert(yaml_parser_initialize(&parser));
@@ -325,7 +320,7 @@ int main(int argc, const char** argv)
         }
 
         printf("PASSED (length: %ld)\n", (long)written);
-        print_output(argv[number], buffer, written, -1);
+        print_output(file_list[number], buffer, written, -1);
     }
 
     return 0;
