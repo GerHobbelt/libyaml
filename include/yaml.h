@@ -314,12 +314,7 @@ typedef struct yaml_token_s {
         struct yaml_version_directive_s version_directive;
 
         /** The tag directive (for @c YAML_TAG_DIRECTIVE_TOKEN). */
-        struct {
-            /** The tag handle. */
-            yaml_char_t *handle;
-            /** The tag prefix. */
-            yaml_char_t *prefix;
-        } tag_directive;
+        struct yaml_tag_directive_s tag_directive;
 
     } data;
 
