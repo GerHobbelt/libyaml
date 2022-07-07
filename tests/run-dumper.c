@@ -9,6 +9,9 @@
 #endif
 #include <assert.h>
 
+#include "monolithic_examples.h"
+
+
 #define BUFFER_SIZE 65536
 #define MAX_DOCUMENTS  16
 

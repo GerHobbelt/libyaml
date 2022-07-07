@@ -8,6 +8,8 @@
 #endif
 #include <assert.h>
 
+#include "monolithic_examples.h"
+
 
 
 #if defined(BUILD_MONOLITHIC)

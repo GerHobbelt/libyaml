@@ -11,6 +11,9 @@ yaml_parser_update_buffer(yaml_parser_t *parser, size_t length);
 #endif
 #include <assert.h>
 
+#include "monolithic_examples.h"
+
+
 /*
  * Test cases are stolen from
  * http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt

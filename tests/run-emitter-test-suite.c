@@ -5,6 +5,9 @@
 #include <assert.h>
 #include "../src/yaml_private.h"
 
+#include "monolithic_examples.h"
+
+
 static int get_line(FILE * input, char *line);
 static char *get_anchor(char sigil, char *line, char *anchor);
 static char *get_tag(char *line, char *tag);

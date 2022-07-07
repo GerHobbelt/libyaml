@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include "monolithic_examples.h"
+
+
 static void print_escaped(yaml_char_t * str, size_t length);
 static int usage(int ret);
 
