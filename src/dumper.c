@@ -25,7 +25,7 @@ yaml_emitter_delete_document_and_anchors(yaml_emitter_t *emitter);
  * Anchor functions.
  */
 static void
-yaml_emitter_anchor_node_sub(yaml_emitter_t *emitter, int index)
+yaml_emitter_anchor_node_sub(yaml_emitter_t* emitter, int index);
 
 static void
 yaml_emitter_anchor_node(yaml_emitter_t *emitter, int index);
