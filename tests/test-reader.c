@@ -152,7 +152,10 @@ int check_utf8_sequences(void)
                             parser.problem, (long)parser.problem_offset);
                 }
             }
-            if (*end == '!') break;
+            if (*end == '!') {
+                yaml_parser_delete(&parser);
+                break;
+            }
             start = ++end;
             yaml_parser_delete(&parser);
         };
