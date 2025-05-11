@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <yaml.h>
+
+void poc() {
+    yaml_document_t document;
+    memset(&document, 0, sizeof(yaml_document_t));
+//    if (!yaml_document_initialize(&document, NULL, NULL, NULL, 0, 0)) return;
+    yaml_char_t *anchor = "rsslab";
+    yaml_char_t *tag = "tag:yaml.org,2002:str";
+    int style = YAML_ANY_SEQUENCE_STYLE;
+//    yaml_document_delete(&document);
+//    yaml_document_get_node(&document, 0);
+//    yaml_document_get_root_node(&document);
+//    yaml_document_add_scalar(&document, tag, "foo", 3, style);
+    fprintf(stderr, "!!!!!!!!!!!!\n");
+//    yaml_document_add_mapping(&document, tag, style);
+//    yaml_document_add_sequence(&document, tag, style);
+    yaml_emitter_t emitter;
+//    yaml_emitter_initialize(&emitter);
+//    yaml_emitter_set_output_file(&emitter, stdout);
+//    yaml_emitter_open(&emitter);
+    yaml_emitter_dump(&emitter, &document);
+//    yaml_document_delete(&document);
+}
+
+int main(int argc, char *argv[])
+{
+    printf("testing\n");
+    poc();
+    return 0;
+}
