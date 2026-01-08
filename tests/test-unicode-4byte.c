@@ -129,10 +129,6 @@ int check_unicode_printable(void)
             }
             printf("\n");
             
-            if (!u1_match && strstr(actual_u1, "\\U000") != NULL && 
-                strstr(expected_u1, "\\U000") == NULL) {
-                printf("\t\t    *** Unicode escaped when expected raw output ***\n");
-            }
             failed++;
         }
         else {
