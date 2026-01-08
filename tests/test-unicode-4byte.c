@@ -36,13 +36,46 @@ test_case unicode_cases[] = {
     {NULL, NULL, NULL, NULL}
 };
 
+static void test_with_unicode(unsigned char *title, char *data, char *expected, int unicode_enabled) {
+    unsigned char buffer[BUFFER_SIZE];
+    yaml_emitter_t emitter;
+    yaml_event_t event;
+    size_t written;
+    
+    printf("\t%s, unicode=%d:\n", title, unicode_enabled);
+        
+    memset(&emitter, 0, sizeof(emitter));
+    assert(yaml_emitter_initialize(&emitter));
+    yaml_emitter_set_output_string(&emitter, buffer, BUFFER_SIZE, &written);
+    yaml_emitter_set_unicode(&emitter, unicode_enabled);
+    
+    assert(yaml_stream_start_event_initialize(&event, YAML_UTF8_ENCODING));
+    assert(yaml_emitter_emit(&emitter, &event));
+    assert(yaml_document_start_event_initialize(&event, NULL, NULL, NULL, 1));
+    assert(yaml_emitter_emit(&emitter, &event));
+    assert(yaml_scalar_event_initialize(&event, NULL, NULL, (yaml_char_t*)data, strlen(data), 1, 1, YAML_PLAIN_SCALAR_STYLE));
+    assert(yaml_emitter_emit(&emitter, &event));
+    assert(yaml_document_end_event_initialize(&event, 1));
+    assert(yaml_emitter_emit(&emitter, &event));
+    assert(yaml_stream_end_event_initialize(&event));
+    assert(yaml_emitter_emit(&emitter, &event));
+    buffer[written] = '\0';
+    yaml_emitter_delete(&emitter);
+    
+    int match = (strcmp(buffer, expected) == 0);
+    if (match) {
+        printf("\t\t+ ");
+        return;
+    }
+
+    printf("\t\t- MISMATCH DETECTED:\n");
+    printf("\t\t\texpected: %s\n", expected);
+    printf("\t\t\tactual: %s\n", buffer);
+    printf("\n");
+}
+
 int check_unicode_printable(void)
 {
-    yaml_emitter_t emitter;
-    yaml_document_t document;
-    yaml_event_t event;
-    unsigned char buffer[BUFFER_SIZE];
-    size_t written;
     int failed = 0;
     int k;
     
@@ -53,90 +86,9 @@ int check_unicode_printable(void)
         char *test_data = unicode_cases[k].test;
         char *expected_u0 = unicode_cases[k].expected_output_unicode0;
         char *expected_u1 = unicode_cases[k].expected_output_unicode1;
-        char *actual_u0, *actual_u1;
         
-        printf("\t%s:\n", title);
-        
-        /* Test with unicode=0 */
-        memset(&emitter, 0, sizeof(emitter));
-        assert(yaml_emitter_initialize(&emitter));
-        yaml_emitter_set_output_string(&emitter, buffer, BUFFER_SIZE, &written);
-        yaml_emitter_set_unicode(&emitter, 0);
-        
-        yaml_event_t event;
-        assert(yaml_stream_start_event_initialize(&event, YAML_UTF8_ENCODING));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_document_start_event_initialize(&event, NULL, NULL, NULL, 1));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_scalar_event_initialize(&event, NULL, NULL, (yaml_char_t*)test_data, strlen(test_data), 1, 1, YAML_PLAIN_SCALAR_STYLE));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_document_end_event_initialize(&event, 1));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_stream_end_event_initialize(&event));
-        assert(yaml_emitter_emit(&emitter, &event));
-        buffer[written] = '\0';
-        actual_u0 = strdup((char*)buffer);
-        
-        yaml_emitter_delete(&emitter);
-        
-        /* Test with unicode=1 */
-        memset(&emitter, 0, sizeof(emitter));
-        assert(yaml_emitter_initialize(&emitter));
-        yaml_emitter_set_output_string(&emitter, buffer, BUFFER_SIZE, &written);
-        yaml_emitter_set_unicode(&emitter, 1);
-        
-        assert(yaml_stream_start_event_initialize(&event, YAML_UTF8_ENCODING));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_document_start_event_initialize(&event, NULL, NULL, NULL, 1));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_scalar_event_initialize(&event, NULL, NULL, (yaml_char_t*)test_data, strlen(test_data), 1, 1, YAML_PLAIN_SCALAR_STYLE));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_document_end_event_initialize(&event, 1));
-        assert(yaml_emitter_emit(&emitter, &event));
-        assert(yaml_stream_end_event_initialize(&event));
-        assert(yaml_emitter_emit(&emitter, &event));
-        buffer[written] = '\0';
-        actual_u1 = strdup((char*)buffer);
-        
-        yaml_emitter_delete(&emitter);
-        
-        /* Validate both outputs */
-        int u0_match = (strcmp(actual_u0, expected_u0) == 0);
-        int u1_match = (strcmp(actual_u1, expected_u1) == 0);
-        
-        if (!u0_match || !u1_match) {
-            printf("\t\t- MISMATCH DETECTED:\n");
-            printf("\t\t    unicode=0:\n");
-            printf("\t\t      expected (hex): ");
-            for (int i = 0; i < strlen(expected_u0); i++) {
-                printf("%02X ", (unsigned char)expected_u0[i]);
-            }
-            printf("\n");
-            printf("\t\t      actual (hex):   ");
-            for (int i = 0; i < strlen(actual_u0); i++) {
-                printf("%02X ", (unsigned char)actual_u0[i]);
-            }
-            printf("\n");
-            printf("\t\t    unicode=1:\n");
-            printf("\t\t      expected (hex): ");
-            for (int i = 0; i < strlen(expected_u1); i++) {
-                printf("%02X ", (unsigned char)expected_u1[i]);
-            }
-            printf("\n");
-            printf("\t\t      actual (hex):   ");
-            for (int i = 0; i < strlen(actual_u1); i++) {
-                printf("%02X ", (unsigned char)actual_u1[i]);
-            }
-            printf("\n");
-            
-            failed++;
-        }
-        else {
-            printf("\t\t+ ");
-        }
-        
-        free(actual_u0);
-        free(actual_u1);
+        test_with_unicode(title, test_data, expected_u0, 0);
+        test_with_unicode(title, test_data, expected_u1, 1);
     }
     
     printf("checking unicode printable behavior: %d fail(s)\n", failed);
