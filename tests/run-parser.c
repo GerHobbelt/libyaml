@@ -19,7 +19,7 @@
 int main(int argc, const char** argv)
 {
     int number;
-    int start = 0;
+    int start = 1;
     int i = 0;
     char *filename;
     char *output;
