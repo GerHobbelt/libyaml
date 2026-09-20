@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 project (yaml C)
 
 set (YAML_VERSION_MAJOR 0)
@@ -98,9 +98,11 @@ install(
 #
 # Add tests
 #
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 include(CTest) # This module defines BUILD_TESTING option
 if(BUILD_TESTING)
   add_subdirectory(tests)
+endif()
 endif()
 
 #
