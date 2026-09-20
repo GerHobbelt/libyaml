@@ -1,0 +1,6 @@
+#
+# file used by the tools/merge_tracked_git_original_4_branch.sh script: these branches are explicitly rejected while we merge/track the vanilla mainline repo.
+#
+
+# all .../old/master branches:
+/old/
