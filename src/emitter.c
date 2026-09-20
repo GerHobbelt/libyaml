@@ -764,6 +764,7 @@ yaml_emitter_emit_flow_sequence_item(yaml_emitter_t *emitter,
     {
         emitter->flow_level --;
         emitter->indent = POP(emitter, emitter->indents);
+        emitter->state = POP(emitter, emitter->states);
         if (emitter->canonical && !first) {
             if (!yaml_emitter_write_indicator(emitter, ",", 0, 0, 0, 0))
                 return 0;
@@ -772,7 +773,6 @@ yaml_emitter_emit_flow_sequence_item(yaml_emitter_t *emitter,
         }
         if (!yaml_emitter_write_indicator(emitter, "]", 0, 0, 0, 0))
             return 0;
-        emitter->state = POP(emitter, emitter->states);
 
         return 1;
     }
@@ -815,6 +815,7 @@ yaml_emitter_emit_flow_mapping_key(yaml_emitter_t *emitter,
             return 0;
         emitter->flow_level --;
         emitter->indent = POP(emitter, emitter->indents);
+        emitter->state = POP(emitter, emitter->states);
         if (emitter->canonical && !first) {
             if (!yaml_emitter_write_indicator(emitter, ",", 0, 0, 0, 0))
                 return 0;
@@ -823,7 +824,6 @@ yaml_emitter_emit_flow_mapping_key(yaml_emitter_t *emitter,
         }
         if (!yaml_emitter_write_indicator(emitter, "}", 0, 0, 0, 0))
             return 0;
-        emitter->state = POP(emitter, emitter->states);
 
         return 1;
     }
