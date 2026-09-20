@@ -21,7 +21,7 @@ int main(int argc, const char** argv)
     int number;
     int start = 1;
     int i = 0;
-    char *filename;
+    const char *filename;
     char *output;
     int max_level;
     int show_error = 0;
