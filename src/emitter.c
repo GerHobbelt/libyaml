@@ -392,7 +392,9 @@ yaml_emitter_append_tag_directive(yaml_emitter_t *emitter,
 
 error:
     yaml_free(copy.handle);
+    copy.handle = NULL;
     yaml_free(copy.prefix);
+    copy.prefix = NULL;
     return 0;
 }
 
@@ -728,7 +730,9 @@ yaml_emitter_emit_document_end(yaml_emitter_t *emitter,
             yaml_tag_directive_t tag_directive = POP(emitter,
                     emitter->tag_directives);
             yaml_free(tag_directive.handle);
+            tag_directive.handle = NULL;
             yaml_free(tag_directive.prefix);
+            tag_directive.prefix = NULL;
         }
 
         return 1;
@@ -1817,6 +1821,8 @@ yaml_emitter_write_indicator(yaml_emitter_t *emitter,
     size_t indicator_length;
     yaml_string_t string;
 
+    if (!indicator)
+    	return 0;
     indicator_length = strlen(indicator);
     STRING_ASSIGN(string, (yaml_char_t *)indicator, indicator_length);
 
@@ -1848,6 +1854,9 @@ yaml_emitter_write_anchor(yaml_emitter_t *emitter,
         yaml_char_t *value, size_t length)
 {
     yaml_string_t string;
+    if (!value || length < 1)
+    	return 0;
+
     STRING_ASSIGN(string, value, length);
 
     while (string.pointer != string.end) {
@@ -1865,6 +1874,9 @@ yaml_emitter_write_tag_handle(yaml_emitter_t *emitter,
         yaml_char_t *value, size_t length)
 {
     yaml_string_t string;
+
+    if (!value || length < 1)
+    	return 0;
     STRING_ASSIGN(string, value, length);
 
     if (!emitter->whitespace) {
@@ -1887,6 +1899,9 @@ yaml_emitter_write_tag_content(yaml_emitter_t *emitter,
         int need_whitespace, int uri_char)
 {
     yaml_string_t string;
+
+    if (!value || length < 1)
+    	return 0;
     STRING_ASSIGN(string, value, length);
 
     if (need_whitespace && !emitter->whitespace) {
@@ -1938,6 +1953,9 @@ yaml_emitter_write_plain_scalar(yaml_emitter_t *emitter,
     yaml_string_t string;
     int spaces = 0;
     int breaks = 0;
+
+    if (!value || length < 1)
+    	return 0;
 
     STRING_ASSIGN(string, value, length);
 
@@ -2005,6 +2023,9 @@ yaml_emitter_write_single_quoted_scalar(yaml_emitter_t *emitter,
     int spaces = 0;
     int breaks = 0;
 
+    if (!value || length < 1)
+    	return 0;
+
     STRING_ASSIGN(string, value, length);
 
     if (!yaml_emitter_write_indicator(emitter, "'", 1, 0, 0, 0))
@@ -2070,6 +2091,8 @@ yaml_emitter_write_double_quoted_scalar(yaml_emitter_t *emitter,
     yaml_string_t string;
     int spaces = 0;
 
+    if (!value || length < 1)
+    	return 0;
     STRING_ASSIGN(string, value, length);
 
     if (!yaml_emitter_write_indicator(emitter, "\"", 1, 0, 0, 0))
@@ -2284,6 +2307,8 @@ yaml_emitter_write_literal_scalar(yaml_emitter_t *emitter,
     yaml_string_t string;
     int breaks = 1;
 
+    if (!value || length < 1)
+    	return 0;
     STRING_ASSIGN(string, value, length);
 
     if (!yaml_emitter_write_indicator(emitter, "|", 1, 0, 0, 0))
@@ -2324,6 +2349,8 @@ yaml_emitter_write_folded_scalar(yaml_emitter_t *emitter,
     int breaks = 1;
     int leading_spaces = 1;
 
+    if (!value || length < 1)
+    	return 0;
     STRING_ASSIGN(string, value, length);
 
     if (!yaml_emitter_write_indicator(emitter, ">", 1, 0, 0, 0))
