@@ -188,6 +188,9 @@ yaml_set_max_nest_level(int max)
 YAML_DECLARE(int)
 yaml_parser_parse(yaml_parser_t *parser, yaml_event_t *event)
 {
+    if (!parser || !event)
+        return 0;
+
     assert(parser);     /* Non-NULL parser object is expected. */
     assert(event);      /* Non-NULL event object is expected. */
 

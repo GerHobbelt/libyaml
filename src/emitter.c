@@ -280,6 +280,9 @@ yaml_emitter_set_emitter_error(yaml_emitter_t *emitter, const char *problem)
 YAML_DECLARE(int)
 yaml_emitter_emit(yaml_emitter_t *emitter, yaml_event_t *event)
 {
+    if (!emitter || !event)
+        return 0;
+
     if (!ENQUEUE(emitter, emitter->events, *event)) {
         yaml_event_delete(event);
         return 0;
