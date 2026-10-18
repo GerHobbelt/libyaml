@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.22)
 project (yaml C)
 
 set (YAML_VERSION_MAJOR 0)
@@ -102,7 +102,8 @@ install(
 #
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 include(CTest) # This module defines BUILD_TESTING option
-if(BUILD_TESTING)
+option(LIBYAML_BUILD_TESTING "Build libyaml test executables" ${BUILD_TESTING})
+if(LIBYAML_BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 endif()
