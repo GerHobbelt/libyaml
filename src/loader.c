@@ -88,6 +88,9 @@ yaml_parser_load(yaml_parser_t *parser, yaml_document_t *document)
 {
     yaml_event_t event;
 
+    if (!parser || !document)
+        return 0;
+
     assert(parser && "Non-NULL parser object is expected.");
     assert(document && "Non-NULL document object is expected.");
 

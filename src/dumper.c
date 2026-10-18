@@ -66,6 +66,9 @@ yaml_emitter_open(yaml_emitter_t *emitter)
     yaml_event_t event;
     yaml_mark_t mark = { 0, 0, 0 };
 
+    if (!emitter)
+        return 0;
+
     assert(emitter && "Non-NULL emitter object is required.");
     assert(!emitter->opened && "Emitter should not be opened yet.");
 
@@ -89,6 +92,9 @@ yaml_emitter_close(yaml_emitter_t *emitter)
 {
     yaml_event_t event;
     yaml_mark_t mark = { 0, 0, 0 };
+
+    if (!emitter)
+        return 0;
 
     assert(emitter && "Non-NULL emitter object is required.");
     assert(emitter->opened && "Emitter should be opened.");
@@ -115,6 +121,9 @@ yaml_emitter_dump(yaml_emitter_t *emitter, yaml_document_t *document)
 {
     yaml_event_t event;
     yaml_mark_t mark = { 0, 0, 0 };
+
+    if (!emitter || !document)
+        return 0;
 
     assert(emitter && "Non-NULL emitter object is required.");
     assert(document && "Non-NULL emitter object is expected.");
