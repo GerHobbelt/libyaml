@@ -24,6 +24,7 @@ foreach(name IN ITEMS
   test-version
   test-directive-inheritance
   test-realloc
+  run-comment-roundtrip
   )
   add_yaml_executable(${name})
 endforeach()
@@ -38,6 +39,7 @@ add_test(NAME bom COMMAND test-bom)
 add_test(NAME emitter COMMAND test-emitter)
 add_test(NAME tag-uri COMMAND test-tag-uri)
 add_test(NAME realloc COMMAND test-realloc)
+add_test(NAME comment-roundtrip COMMAND run-comment-roundtrip)
 
 # Regression test for allocation-failure handling in the loader: the
 # library sources are compiled into the test with the allocator renamed,

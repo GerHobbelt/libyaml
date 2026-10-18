@@ -46,3 +46,5 @@ stamp-h1
 /tests/test-reader
 /tests/test-version
 /dist/
+/build/
+/tests/run-comment-roundtrip
