@@ -20,6 +20,7 @@ foreach(name IN ITEMS
   test-emitter
   test-nesting
   test-reader
+  test-tag-uri
   test-version
   )
   add_yaml_executable(${name})
@@ -30,4 +31,5 @@ add_test(NAME reader COMMAND test-reader)
 add_test(NAME nesting COMMAND test-nesting)
 add_test(NAME bom COMMAND test-bom)
 add_test(NAME emitter COMMAND test-emitter)
+add_test(NAME tag-uri COMMAND test-tag-uri)
 
