@@ -74,8 +74,6 @@ YAML_DECLARE(int)
 yaml_string_extend(yaml_char_t **start,
         yaml_char_t **pointer, yaml_char_t **end)
 {
-    yaml_char_t *new_start;
-
     if (!start || !pointer || !end || !*start || !*pointer || !*end)
         return 0;
 
