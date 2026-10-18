@@ -13,10 +13,10 @@
 
 
 #if defined(BUILD_MONOLITHIC)
-#define main(cnt, arr)      yaml_test_version_main(cnt, arr)
+#define main      yaml_test_version_main
 #endif
 
-int main(int argc, const char** argv)
+int main(void)
 {
     int major = -1;
     int minor = -1;

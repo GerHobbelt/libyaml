@@ -86,8 +86,19 @@ static int run_test(const char *name, const char *doc) {
     return 0;
 }
 
-int main(void) {
-    int failed = 0;
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_load_error_main
+#endif
+
+int main(void)
+{
+	int failed = 0;
 
     failed |= run_test("mappings", test_mappings);
     failed |= run_test("sequences", test_sequences);

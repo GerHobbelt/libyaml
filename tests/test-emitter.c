@@ -38,6 +38,7 @@ typedef struct {
 #define PLAIN   YAML_PLAIN_SCALAR_STYLE
 #define DQUOTED YAML_DOUBLE_QUOTED_SCALAR_STYLE
 
+static
 test_case unicode_scalars[] = {
     /* {"title", encoding, unicode, style, "value", "expected", length}, */
 
@@ -132,6 +133,7 @@ print_bytes(const unsigned char *data, size_t length)
     }
 }
 
+static
 int check_unicode_scalars(void)
 {
     output_t output;
@@ -165,8 +167,17 @@ int check_unicode_scalars(void)
     return failed;
 }
 
-int
-main(void)
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_emitter_main
+#endif
+
+int main(void)
 {
-    return check_unicode_scalars();
+	return check_unicode_scalars();
 }

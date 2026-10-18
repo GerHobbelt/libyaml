@@ -32,9 +32,20 @@ static const unsigned char yaml_input[] =
     "--- !x!bar\n"
     "x: 1\n";
 
+
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_directive_inheritance_main
+#endif
+
 int main(void)
 {
-    yaml_parser_t parser;
+	yaml_parser_t parser;
     yaml_event_t event;
     int done = 0;
 

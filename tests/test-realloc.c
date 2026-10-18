@@ -1,4 +1,5 @@
-#include "yaml_private.h"
+
+#include "../src/yaml_private.h"
 
 static int
 test_string_extend(void)
@@ -87,10 +88,19 @@ test_queue_extend(void)
     return 1;
 }
 
-int
-main(void)
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_realloc_main
+#endif
+
+int main(void)
 {
-    if (!test_string_extend())
+	if (!test_string_extend())
         return 1;
     if (!test_stack_extend())
         return 1;

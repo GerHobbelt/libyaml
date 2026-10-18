@@ -46,8 +46,17 @@ parse_scalars(const char *input, size_t length, yaml_encoding_t encoding)
     return scalars;
 }
 
-int
-main(void)
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_bom_main
+#endif
+
+int main(void)
 {
     /* UTF-8 BOM followed by a root-level block mapping with two entries. */
     const char input[] = "\xEF\xBB\xBF" "a: b\nc: d\n";

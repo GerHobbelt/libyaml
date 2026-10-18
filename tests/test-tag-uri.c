@@ -38,10 +38,19 @@ static const struct {
         "!foo"}
 };
 
-int
-main(void)
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_tag_uri_main
+#endif
+
+int main(void)
 {
-    size_t i;
+	size_t i;
     int failures = 0;
 
     for (i = 0; i < sizeof(cases)/sizeof(cases[0]); i++) {

@@ -25,6 +25,7 @@ typedef struct {
     int result;
 } test_case;
 
+static
 test_case utf8_sequences[] = {
     /* {"title", "test 1|test 2|...|test N!", (0 or 1)}, */
 
@@ -104,6 +105,7 @@ test_case utf8_sequences[] = {
     {NULL, NULL, 0}
 };
 
+static
 test_case boms[] = {
     
     /* {"title", "test!", length}, */
@@ -115,8 +117,10 @@ test_case boms[] = {
     {NULL, NULL, 0}
 };
 
+static
 char *bom_original = "Hi is \xd0\x9f\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82";
 
+static
 int check_utf8_sequences(void)
 {
     yaml_parser_t parser;
@@ -165,6 +169,7 @@ int check_utf8_sequences(void)
     return failed;
 }
 
+static
 int check_boms(void)
 {
     yaml_parser_t parser;
@@ -207,6 +212,7 @@ int check_boms(void)
 
 #define LONG    100000
 
+static
 int check_long_utf8(void)
 {
     yaml_parser_t parser;
@@ -279,6 +285,7 @@ int check_long_utf8(void)
     return failed;
 }
 
+static
 int check_long_utf16(void)
 {
     yaml_parser_t parser;
@@ -353,10 +360,10 @@ int check_long_utf16(void)
 
 
 #if defined(BUILD_MONOLITHIC)
-#define main(cnt, arr)      yaml_test_reader_main(cnt, arr)
+#define main      yaml_test_reader_main
 #endif
 
-int main(int argc, const char** argv)
+int main(void)
 {
     return check_utf8_sequences() + check_boms() + check_long_utf8() + check_long_utf16();
 }

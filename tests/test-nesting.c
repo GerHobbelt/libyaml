@@ -38,10 +38,19 @@ scan_string(const char *input, size_t length)
     return error;
 }
 
-int
-main(void)
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_nesting_main
+#endif
+
+int main(void)
 {
-    char *input;
+	char *input;
     int i;
 
     /* Test 1: nesting beyond the default limit (1000) must fail. */

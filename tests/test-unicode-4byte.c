@@ -18,6 +18,7 @@ typedef struct {
     char *expected_output_unicode1;  /* expected output with unicode=1 */
 } test_case;
 
+static
 test_case unicode_cases[] = {
     /* ASCII - never escapes in either case */
     {"ascii", "Hello", "Hello\n", "Hello\n"},
@@ -115,6 +116,7 @@ static int test_with_unicode(unsigned char *title, char *data, char *expected, i
     }
 }
 
+static
 int check_unicode_printable(void)
 {
     int failed = 0;
@@ -136,8 +138,17 @@ int check_unicode_printable(void)
     return failed;
 }
 
-int
-main(void)
+
+
+#include "monolithic_examples.h"
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main         yaml_test_unicode_4byte_main
+#endif
+
+int main(void)
 {
-    return check_unicode_printable();
+	return check_unicode_printable();
 }

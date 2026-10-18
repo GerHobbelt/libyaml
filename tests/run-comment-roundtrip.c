@@ -4,6 +4,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include "monolithic_examples.h"
+
 /*
  * Test comment preservation through the full pipeline:
  *   parse (with preserve_comments) -> load -> dump -> emit
@@ -346,9 +348,16 @@ static void test_sequence_comments(void)
     yaml_parser_delete(&parser);
 }
 
-int main(int argc, char *argv[])
+
+
+
+#if defined(BUILD_MONOLITHIC)
+#define main(cnt, arr)      yaml_run_comment_roundtrip_tests_main(cnt, arr)
+#endif
+
+int main(int argc, const char** argv)
 {
-    (void)argc;
+	(void)argc;
     (void)argv;
 
     printf("Running comment preservation tests...\n\n");
