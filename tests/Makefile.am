@@ -1,8 +1,9 @@
 AM_CPPFLAGS = -I$(top_srcdir)/include -Wall
 #AM_CFLAGS = -Wno-pointer-sign
 LDADD = $(top_builddir)/src/libyaml.la
-TESTS = test-version test-reader test-nesting test-bom test-emitter test-tag-uri
-check_PROGRAMS = test-version test-reader test-nesting test-bom test-emitter test-tag-uri
+TESTS = test-version test-reader test-nesting test-bom test-emitter test-tag-uri test-realloc
+check_PROGRAMS = test-version test-reader test-nesting test-bom test-emitter test-tag-uri test-realloc
+test_realloc_CPPFLAGS = $(AM_CPPFLAGS) -I$(top_srcdir)/src
 noinst_PROGRAMS = run-scanner run-parser run-loader run-emitter run-dumper	\
 				  example-reformatter example-reformatter-alt	\
 				  example-deconstructor example-deconstructor-alt \

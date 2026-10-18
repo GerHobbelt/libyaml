@@ -23,9 +23,12 @@ foreach(name IN ITEMS
   test-tag-uri
   test-version
   test-directive-inheritance
+  test-realloc
   )
   add_yaml_executable(${name})
 endforeach()
+
+target_include_directories(test-realloc PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
 add_test(NAME directive-inheritance COMMAND test-directive-inheritance)
 add_test(NAME version COMMAND test-version)
@@ -34,6 +37,7 @@ add_test(NAME nesting COMMAND test-nesting)
 add_test(NAME bom COMMAND test-bom)
 add_test(NAME emitter COMMAND test-emitter)
 add_test(NAME tag-uri COMMAND test-tag-uri)
+add_test(NAME realloc COMMAND test-realloc)
 
 # Regression test for allocation-failure handling in the loader: the
 # library sources are compiled into the test with the allocator renamed,
